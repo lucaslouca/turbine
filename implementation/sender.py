@@ -1,10 +1,10 @@
-from implementation.model.data_extraction_request import DataExtractionRequest
+from implementation.model.concept import Concept
+from implementation.model.data import Data
+from implementation.model.ticker import Ticker
 from connarchitecture.abstract_sender import AbstractSender
 from connarchitecture.decorators import overrides
 import implementation.database as db
 from implementation.extractor_result import ExtractorResult
-from implementation.model.data import Data
-from implementation.model.ticker import Ticker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from threading import Lock
@@ -42,8 +42,10 @@ class FileSQLiteSender(AbstractSender):
             if db_ticker:
                 ticker.id = db_ticker.id
 
-            # _ticker_id_name_year_uc
-            db_data = session.query(Data.id).filter_by(ticker_id=ticker.id, name=d.name, year=d.year).first()
+            if isinstance(d, Concept):
+                db_data = session.query(Concept.id).filter_by(ticker_id=ticker.id, name=d.name, year=d.year).first()
+                if db_data:
+                    d.id = db_data.id
 
             session.merge(d)
             session.commit()
