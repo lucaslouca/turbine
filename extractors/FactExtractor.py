@@ -1,7 +1,8 @@
 from implementation.abstract_extractor import AbstractExtractor
 from implementation.model.data_extraction_request import DataExtractionRequest
 from connarchitecture.decorators import overrides
-from implementation.model.data import Data
+from implementation.model.concept import Concept
+from implementation.model.ticker import Ticker
 import json
 import jsonpath_rw_ext
 
@@ -32,9 +33,9 @@ class FactExtractor(AbstractExtractor):
         if value:
             try:
                 result.append(
-                    Data(
-                        ticker=request.ticker,
-                        concept=request.concept,
+                    Concept(
+                        ticker=Ticker(symbol=request.ticker),
+                        name=request.concept,
                         year=request.year,
                         value=float(value)
                     )

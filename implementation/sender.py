@@ -4,6 +4,7 @@ from connarchitecture.decorators import overrides
 import implementation.database as db
 from implementation.extractor_result import ExtractorResult
 from implementation.model.data import Data
+from implementation.model.ticker import Ticker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from threading import Lock
@@ -33,10 +34,18 @@ class FileSQLiteSender(AbstractSender):
     def initialize(self):
         self.log("init")
 
-    def _persist(self, findings: List[Data]):
+    def _persist(self, data: List[Data]):
         session = FileSQLiteSender._Session()
-        for finding in findings:
-            session.merge(finding)
+        for d in data:
+            ticker = d.ticker
+            db_ticker = session.query(Ticker.id).filter_by(symbol=ticker.symbol).first()
+            if db_ticker:
+                ticker.id = db_ticker.id
+
+            # _ticker_id_name_year_uc
+            db_data = session.query(Data.id).filter_by(ticker_id=ticker.id, name=d.name, year=d.year).first()
+
+            session.merge(d)
             session.commit()
         session.close()
 
