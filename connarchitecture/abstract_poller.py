@@ -20,6 +20,9 @@ class AbstractPoller(AbstractWorker):
     def set_out_queue(self, queue):
         self._out_queue = queue
 
+    def set_topic(self, topic):
+        self._topic = topic
+
     @overrides(AbstractWorker)
     def _prepare_for_run(self):
         if not self._out_queue:

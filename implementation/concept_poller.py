@@ -10,18 +10,19 @@ from queue import Empty
 import requests
 
 
-class Poller(AbstractPoller):
+class ConceptPoller(AbstractPoller):
     _shared_cik_to_ticker_map = {}
     _shared_input_queue = ConnectorQueue()
 
     def __init__(self, name, **kwargs):
         AbstractPoller.__init__(self, name)
         self._file_dir = kwargs['file_dir']
+        self._cache_dir = 'cache/concepts'
         if not os.path.exists(self._file_dir):
             os.makedirs(self._file_dir)
 
     def _spawn_dir_watcher(self, dir):
-        dir_watcher = FileDirWatcher(dir, Poller._shared_input_queue)
+        dir_watcher = FileDirWatcher(dir, ConceptPoller._shared_input_queue)
         dir_watcher_thread = Thread(target=dir_watcher.run, args=())
         dir_watcher_thread.daemon = True
         dir_watcher_thread.start()
@@ -82,13 +83,14 @@ class Poller(AbstractPoller):
 
     @overrides(AbstractPoller)
     def static_initialize(self):
-        os.makedirs('cache', exist_ok=True)
+        self.log('static init')
         self._spawn_dir_watcher(self._file_dir)
-        Poller._shared_cik_to_ticker_map = self._fetch_cik_to_ticker_map(file='cache/ticker.txt')
+        ConceptPoller._shared_cik_to_ticker_map = self._fetch_cik_to_ticker_map(file='cache/ticker.txt')
 
     @overrides(AbstractPoller)
     def initialize(self):
         self.log("init")
+        os.makedirs(self._cache_dir, exist_ok=True)
 
     @overrides(AbstractPoller)
     def poll(self):
@@ -96,9 +98,9 @@ class Poller(AbstractPoller):
         file = None
         success = False
         try:
-            ticker, concept, year = Poller._shared_input_queue.get(block=False)
-            ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=Poller._shared_cik_to_ticker_map, concept=concept)
-            file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir='cache')
+            ticker, concept, year = ConceptPoller._shared_input_queue.get_topic(topic=self._topic, block=False)
+            ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=ConceptPoller._shared_cik_to_ticker_map, concept=concept)
+            file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
             extraction_request = DataExtractionRequest(url=url, file=file, ticker=ticker, concept=concept, year=year)
             self.log(f"Polled '{file}'")
             success = True

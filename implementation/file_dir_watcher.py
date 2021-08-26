@@ -41,8 +41,9 @@ class Handler(FileSystemEventHandler, LoggingComponent):
         if not file_name.startswith("."):
             tuples = self._generate_tuples(file=file)
             for t in tuples:
-                self.log(f"Adding '{t}' to queue")
-                self._queue.put(t)
+                topic = t[0]
+                self.log(f"Adding '{t[1:]}' to queue")
+                self._queue.put_topic(topic, t[1:])
 
     def _load_files(self, dir):
         for f in os.listdir(dir):
@@ -55,13 +56,14 @@ class Handler(FileSystemEventHandler, LoggingComponent):
         with open(file, 'r') as json_file:
             try:
                 json_data = json.load(json_file)
-                for request in json_data:
-                    for ticker in request['tickers']:
-                        concepts = request['concepts']
+                topic = json_data['topic']
+                for resource in json_data['resources']:
+                    for ticker in resource['tickers']:
+                        concepts = resource['concepts']
                         for concept in concepts:
                             concept_name = concept['name']
                             year = concept['year']
-                            result.append((ticker, concept_name, int(year)))
+                            result.append((topic, ticker, concept_name, int(year)))
 
             except Exception as e:
                 self.log_exception(message=f'Unable to load json {file}', exception=e)

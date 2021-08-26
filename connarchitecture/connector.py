@@ -71,10 +71,16 @@ class Connector(ThreadedServer):
         self._host = config.get(Constants.CONFIG_SECTION_CONNECTOR, Constants.CONFIG_CONNECTOR_HOST)
         self._port = int(config.get(Constants.CONFIG_SECTION_CONNECTOR, Constants.CONFIG_CONNECTOR_PORT))
 
-        self._poller_class = self._load_class(config.get(Constants.CONFIG_SECTION_POLLER, Constants.CONFIG_POLLER_CLASS))
-        self._min_poller_threads = int(config.get(Constants.CONFIG_SECTION_POLLER, Constants.CONFIG_POLLER_MIN_THREADS))
-        self._max_poller_threads = int(config.get(Constants.CONFIG_SECTION_POLLER, Constants.CONFIG_POLLER_MAX_THREADS))
-        self._poller_args = json.loads(config.get(Constants.CONFIG_SECTION_POLLER, Constants.CONFIG_POLLER_ARGS))
+        self._poller_classes_config = {}
+        for section in config.sections():
+            if section.startswith(Constants.CONFIG_SECTION_POLLER):
+                self._poller_classes_config[section] = {
+                    'class': self._load_class(config.get(section, Constants.CONFIG_POLLER_CLASS)),
+                    'topic': config.get(section, Constants.CONFIG_POLLER_TOPIC),
+                    'min_poller_threads': int(config.get(section, Constants.CONFIG_POLLER_MIN_THREADS)),
+                    'max_poller_threads': int(config.get(section, Constants.CONFIG_POLLER_MAX_THREADS)),
+                    'poller_args': json.loads(config.get(section, Constants.CONFIG_POLLER_ARGS))
+                }
 
         self._parser_class = self._load_class(config.get(Constants.CONFIG_SECTION_PARSER, Constants.CONFIG_PARSER_CLASS))
         self._min_parser_threads = int(config.get(Constants.CONFIG_SECTION_PARSER, Constants.CONFIG_PARSER_MIN_THREADS))
@@ -100,13 +106,17 @@ class Connector(ThreadedServer):
     def _setup_pollers(self):
         threads = []
         cpus = self._get_num_of_cpu_threads()
-        num_of_threads = max(self._min_poller_threads, min(self._max_poller_threads, cpus))
-        name_prefix = self._poller_class.__name__
-        for i in range(num_of_threads):
-            t = self._poller_class(f"{name_prefix}-{i+1}", **self._poller_args)
-            t.set_out_queue(self._poller_out_queue)
-            t.set_event_queue(self._event_queue)
-            threads.append(t)
+
+        for key in self._poller_classes_config:
+            poller_class = self._poller_classes_config[key]['class']
+            num_of_threads = max(self._poller_classes_config[key]['min_poller_threads'], min(self._poller_classes_config[key]['max_poller_threads'], cpus))
+            name_prefix = poller_class.__name__
+            for i in range(num_of_threads):
+                t = poller_class(f"{name_prefix}-{i+1}", **self._poller_classes_config[key]['poller_args'])
+                t.set_out_queue(self._poller_out_queue)
+                t.set_event_queue(self._event_queue)
+                t.set_topic(self._poller_classes_config[key]['topic'])
+                threads.append(t)
         return threads
 
     def _setup_parsers(self):

@@ -1,0 +1,23 @@
+{
+    "topic": "price",
+    "resources": [
+        {
+            "tickers": [
+                "AAPL",
+                "MSFT"
+            ],
+            "years": [
+                2014,
+                2015
+            ]
+        },
+        {
+            "tickers": [
+                "MO"
+            ],
+            "years": [
+                2010
+            ]
+        }
+    ]
+}

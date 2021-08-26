@@ -1,25 +1,28 @@
-[
-    {
-        "tickers": [
-            "AAPL",
-            "MSFT"
-        ],
-        "concepts": [
-            {
-                "name": "AccountsPayableCurrent",
-                "year": 2014
-            }
-        ]
-    },
-    {
-        "tickers": [
-            "MO"
-        ],
-        "concepts": [
-            {
-                "name": "LongTermDebt",
-                "year": 2014
-            }
-        ]
-    }
-]
+{
+    "topic": "concept",
+    "resources": [
+        {
+            "tickers": [
+                "AAPL",
+                "MSFT"
+            ],
+            "concepts": [
+                {
+                    "name": "AccountsPayableCurrent",
+                    "year": 2014
+                }
+            ]
+        },
+        {
+            "tickers": [
+                "MO"
+            ],
+            "concepts": [
+                {
+                    "name": "LongTermDebt",
+                    "year": 2014
+                }
+            ]
+        }
+    ]
+}
