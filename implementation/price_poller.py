@@ -14,7 +14,7 @@ class PricePoller(AbstractPoller):
 
     def __init__(self, name, **kwargs):
         AbstractPoller.__init__(self, name)
-        self._file_dir = kwargs['file_dir']
+        self._file_dir = 'in'
         self._cache_dir = 'cache/prices'
         if not os.path.exists(self._file_dir):
             os.makedirs(self._file_dir)
