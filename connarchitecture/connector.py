@@ -42,6 +42,7 @@ class Connector(ThreadedServer):
     def __init__(self, config_path):
         self._load_config(config_path)
         ThreadedServer.__init__(self, self._name, self._host, self._port)
+        self._poller_in_queue = ConnectorQueue()
         self._poller_out_queue = ConnectorQueue()
         self._parser_out_queue = ConnectorQueue()
         self._pollers = []
@@ -113,6 +114,7 @@ class Connector(ThreadedServer):
             name_prefix = poller_class.__name__
             for i in range(num_of_threads):
                 t = poller_class(f"{name_prefix}-{i+1}", **self._poller_classes_config[key]['poller_args'])
+                t.set_in_queue(self._poller_in_queue)
                 t.set_out_queue(self._poller_out_queue)
                 t.set_event_queue(self._event_queue)
                 t.set_topic(self._poller_classes_config[key]['topic'])

@@ -5,6 +5,7 @@ from connarchitecture.exceptions import PollerException, FatalException
 from connarchitecture.constants import Constants
 from abc import abstractmethod
 from threading import Lock
+from queue import Empty
 
 
 class AbstractPoller(AbstractWorker):
@@ -16,6 +17,9 @@ class AbstractPoller(AbstractWorker):
         AbstractWorker.__init__(self, name)
         with AbstractPoller._lock:
             AbstractPoller._thread_count += 1
+
+    def set_in_queue(self, queue):
+        self._in_queue = queue
 
     def set_out_queue(self, queue):
         self._out_queue = queue
@@ -48,11 +52,15 @@ class AbstractPoller(AbstractWorker):
         success = False
         try:
             with AbstractPoller._lock:
-                result = self.poll()
-                if result:
-                    polled_result, poll_reference, success = result
-                if not success and poll_reference:
-                    self.update(Constants.EVENT_ERROR, poll_reference)
+                try:
+                    items = self._in_queue.get_topic(topic=self.get_topic(), block=False)
+                    result = self.poll(items=items)
+                    if result:
+                        polled_result, poll_reference, success = result
+                    if not success and poll_reference:
+                        self.update(Constants.EVENT_ERROR, poll_reference)
+                except Empty:
+                    pass
         except FatalException as e:
             raise e
         except Exception as e:
@@ -94,11 +102,15 @@ class AbstractPoller(AbstractWorker):
         pass
 
     @abstractmethod
-    def poll(self):
+    def poll(self, items):
         """
         Poll process. Represent one poll cycle.
         :return the poll result
         """
+        pass
+
+    @abstractmethod
+    def get_topic(self):
         pass
 
     @abstractmethod

@@ -12,7 +12,6 @@ import requests
 
 class ConceptPoller(AbstractPoller):
     _shared_cik_to_ticker_map = {}
-    _shared_input_queue = ConnectorQueue()
 
     def __init__(self, name, **kwargs):
         AbstractPoller.__init__(self, name)
@@ -22,7 +21,7 @@ class ConceptPoller(AbstractPoller):
             os.makedirs(self._file_dir)
 
     def _spawn_dir_watcher(self, dir):
-        dir_watcher = FileDirWatcher(dir, ConceptPoller._shared_input_queue)
+        dir_watcher = FileDirWatcher(dir, self._in_queue)
         dir_watcher_thread = Thread(target=dir_watcher.run, args=())
         dir_watcher_thread.daemon = True
         dir_watcher_thread.start()
@@ -93,19 +92,24 @@ class ConceptPoller(AbstractPoller):
         os.makedirs(self._cache_dir, exist_ok=True)
 
     @overrides(AbstractPoller)
-    def poll(self):
+    def get_topic(self):
+        return self._topic
+
+    @overrides(AbstractPoller)
+    def poll(self, items):
         extraction_request = None
         file = None
         success = False
         try:
-            ticker, concept, year = ConceptPoller._shared_input_queue.get_topic(topic=self._topic, block=False)
+            ticker, concept, year = items
+            self.log(f"Polling '{concept}' for '{ticker}'")
+
             ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=ConceptPoller._shared_cik_to_ticker_map, concept=concept)
             file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
             extraction_request = DataExtractionRequest(url=url, file=file, ticker=ticker, concept=concept, year=year)
+
             self.log(f"Polled '{file}'")
             success = True
-        except Empty:
-            pass
         except Exception as e:
             self.log_error(e)
         finally:

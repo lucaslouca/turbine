@@ -36,13 +36,27 @@ class Handler(FileSystemEventHandler, LoggingComponent):
         self._queue = queue
         self._load_files(dir=self._dir_to_watch)
 
+    def _file_topic(self, file: str) -> str:
+        with open(file, 'r') as json_file:
+            try:
+                json_data = json.load(json_file)
+                topic = json_data['topic']
+                return topic
+            except Exception as e:
+                self.log_exception(message=f'Unable to load json {file}', exception=e)
+
     def _handle_file(self, file: str):
         file_name = os.path.splitext(os.path.basename(file))[0]
         if not file_name.startswith("."):
-            tuples = self._generate_tuples(file=file)
+            tuples = []
+            topic = self._file_topic(file=file)
+            if topic == 'concept':
+                tuples = self._generate_concept_tuples(file=file)
+            elif topic == 'price':
+                tuples = self._generate_price_tuples(file=file)
             for t in tuples:
                 topic = t[0]
-                self.log(f"Adding '{t[1:]}' to queue")
+                self.log(f"Adding '{t}' to queue")
                 self._queue.put_topic(topic, t[1:])
 
     def _load_files(self, dir):
@@ -51,7 +65,7 @@ class Handler(FileSystemEventHandler, LoggingComponent):
             if os.path.isfile(path):
                 self._handle_file(file=path)
 
-    def _generate_tuples(self, file: str) -> list[(str, int, str)]:
+    def _generate_concept_tuples(self, file: str) -> list[(str, int, str)]:
         result = []
         with open(file, 'r') as json_file:
             try:
@@ -67,7 +81,21 @@ class Handler(FileSystemEventHandler, LoggingComponent):
 
             except Exception as e:
                 self.log_exception(message=f'Unable to load json {file}', exception=e)
+        return result
 
+    def _generate_price_tuples(self, file: str) -> list[(str, int, str)]:
+        result = []
+        with open(file, 'r') as json_file:
+            try:
+                json_data = json.load(json_file)
+                topic = json_data['topic']
+                for resource in json_data['resources']:
+                    for ticker in resource['tickers']:
+                        years = resource['years']
+                        result.append((topic, ticker, [int(y) for y in years]))
+
+            except Exception as e:
+                self.log_exception(message=f'Unable to load json {file}', exception=e)
         return result
 
     def on_any_event(self, event):

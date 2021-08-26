@@ -6,13 +6,11 @@ from implementation.file_dir_watcher import FileDirWatcher
 import os
 from pathlib import Path
 from threading import Thread
-from queue import Empty
 import requests
 
 
 class PricePoller(AbstractPoller):
     _shared_cik_to_ticker_map = {}
-    _shared_input_queue = ConnectorQueue()
 
     def __init__(self, name, **kwargs):
         AbstractPoller.__init__(self, name)
@@ -22,7 +20,7 @@ class PricePoller(AbstractPoller):
             os.makedirs(self._file_dir)
 
     def _spawn_dir_watcher(self, dir):
-        dir_watcher = FileDirWatcher(dir, PricePoller._shared_input_queue)
+        dir_watcher = FileDirWatcher(dir, self._in_queue)
         dir_watcher_thread = Thread(target=dir_watcher.run, args=())
         dir_watcher_thread.daemon = True
         dir_watcher_thread.start()
@@ -38,19 +36,19 @@ class PricePoller(AbstractPoller):
         os.makedirs(self._cache_dir, exist_ok=True)
 
     @overrides(AbstractPoller)
-    def poll(self):
+    def get_topic(self):
+        return self._topic
+
+    @overrides(AbstractPoller)
+    def poll(self, items):
         extraction_request = None
         file = None
         success = False
-        try:
-            ticker, concept, year = PricePoller._shared_input_queue.get_topic(topic=self._topic, block=False)
-            success = True
-        except Empty:
-            pass
-        except Exception as e:
-            self.log_error(e)
-        finally:
-            return (extraction_request, file, success)
+
+        ticker, years = items
+        self.log(f"Polling {ticker} historical data for years: {years}")
+        success = True
+        return (extraction_request, file, success)
 
     @ overrides(AbstractPoller)
     def cleanup(self):
