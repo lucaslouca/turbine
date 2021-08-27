@@ -1,4 +1,5 @@
 from implementation.model.concept import Concept
+from implementation.model.price import Price
 from implementation.model.data import Data
 from implementation.model.ticker import Ticker
 from connarchitecture.abstract_sender import AbstractSender
@@ -37,13 +38,18 @@ class FileSQLiteSender(AbstractSender):
     def _persist(self, data: List[Data]):
         session = FileSQLiteSender._Session()
         for d in data:
-            ticker = d.ticker
+            ticker = d.get_ticker()
             db_ticker = session.query(Ticker.id).filter_by(symbol=ticker.symbol).first()
             if db_ticker:
                 ticker.id = db_ticker.id
 
             if isinstance(d, Concept):
                 db_data = session.query(Concept.id).filter_by(ticker_id=ticker.id, name=d.name, year=d.year).first()
+                if db_data:
+                    d.id = db_data.id
+
+            elif isinstance(d, Price):
+                db_data = session.query(Price.id).filter_by(ticker_id=ticker.id, date=d.date).first()
                 if db_data:
                     d.id = db_data.id
 

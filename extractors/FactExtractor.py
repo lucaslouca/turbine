@@ -29,14 +29,14 @@ class FactExtractor(AbstractExtractor):
     def extract(self, request: DataExtractionRequest):
         self.log(f"Proccessing '{request.file}'")
         result = []
-        value = self._find_value_for_concept(file=request.file, fy=request.year)
+        value = self._find_value_for_concept(file=request.file, fy=request.data['year'])
         if value:
             try:
                 result.append(
                     Concept(
                         ticker=Ticker(symbol=request.ticker),
-                        name=request.concept,
-                        year=request.year,
+                        name=request.data['concept'],
+                        year=request.data['year'],
                         value=float(value)
                     )
                 )

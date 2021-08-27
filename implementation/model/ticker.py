@@ -1,5 +1,6 @@
 import implementation.database as db
 from implementation.model.concept import Concept
+from implementation.model.price import Price
 from sqlalchemy import Column, Integer, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 import os
@@ -10,6 +11,7 @@ class Ticker(db.Base):
     id = Column(Integer, primary_key=True)
     symbol = Column(String)
     concepts = relationship('Concept', back_populates='ticker')
+    prices = relationship('Price', back_populates='ticker')
 
     __table_args__ = (UniqueConstraint('symbol', name='_symbol_uc'),)
 

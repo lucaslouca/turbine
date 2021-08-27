@@ -92,7 +92,8 @@ class Handler(FileSystemEventHandler, LoggingComponent):
                 for resource in json_data['resources']:
                     for ticker in resource['tickers']:
                         years = resource['years']
-                        result.append((topic, ticker, [int(y) for y in years]))
+                        for y in years:
+                            result.append((topic, ticker, int(y)))
 
             except Exception as e:
                 self.log_exception(message=f'Unable to load json {file}', exception=e)

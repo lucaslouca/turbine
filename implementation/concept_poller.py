@@ -106,8 +106,7 @@ class ConceptPoller(AbstractPoller):
 
             ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=ConceptPoller._shared_cik_to_ticker_map, concept=concept)
             file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
-            extraction_request = DataExtractionRequest(url=url, file=file, ticker=ticker, concept=concept, year=year)
-
+            extraction_request = DataExtractionRequest(file=file, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
             self.log(f"Polled '{file}'")
             success = True
         except Exception as e:

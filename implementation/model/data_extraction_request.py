@@ -2,12 +2,10 @@ import os
 
 
 class DataExtractionRequest:
-    def __init__(self, url: str, file: str, ticker: str, concept: str, year: int):
-        self.url = url
+    def __init__(self, file: str, ticker: str, data: dict):
         self.file = file
         self.ticker = ticker
-        self.concept = concept
-        self.year = year
+        self.data = data
 
     @property
     def file_extension(self):
@@ -19,14 +17,8 @@ class DataExtractionRequest:
         filename, _ = os.path.splitext(self.file)
         return filename
 
-    def __hash__(self):
-        return hash(self.url)
-
-    def __eq__(self, other):
-        return isinstance(other, DataExtractionRequest) and self.url == other.url
-
     def __str__(self):
         return f"{self.file}"
 
     def __repr__(self):
-        return f'<DataExtractionRequest(url={self.url}, file={self.file}, ticker={self.ticker}, concept={self.concept}, year={self.year})>'
+        return f'<DataExtractionRequest(file={self.file}, ticker={self.ticker}, data={self.data})>'
