@@ -22,7 +22,38 @@ Turbine fetches company financial statement data filled with the SEC by leveragi
 ## Architecture
 The main workers of the framework are the _Poller_, _Parser_ and the _Sender_.
 
-**DirectoryWatcher**: The DirectoryWatcher watches the _input_ directory for any incoming `request.json` files. These files contain information about what data Turbine should fetch.
+**DirectoryWatcher**: The DirectoryWatcher watches the _input_ directory for any incoming `request.json` files. These files contain information about what data Turbine should fetch. A sample `request.json` file is listed below:
+
+```json
+{
+    "topic": "concept",
+    "resources": [
+        {
+            "tickers": [
+                "AAPL",
+                "MSFT"
+            ],
+            "concepts": [
+                {
+                    "name": "AccountsPayableCurrent",
+                    "year": 2014
+                }
+            ]
+        },
+        {
+            "tickers": [
+                "BIIB"
+            ],
+            "concepts": [
+                {
+                    "name": "LongTermDebt",
+                    "year": 2014
+                }
+            ]
+        }
+    ]
+}
+```
 
 **Poller**: Poller threads connect to the source and poll for data. The source can be a database, file system, Web API, etc. The data is cached on disc as JSON or CSV file and then passed on to the Parser for further processing. Pollers will look if the requested data is cached before trying to fetch it from the original source. If you want to force the Pollers to re-fetch the data from the source you must erase the `cache` directory.
 
@@ -85,6 +116,9 @@ Name=Turbine
 Host=127.0.0.1
 Port=35813
 
+[DIRECTORY_WATCHER]
+Directory=in
+
 [POLLER_concepts]
 Class=implementation.poller_concept.PollerConcept
 Topic=concept
@@ -110,11 +144,6 @@ Class=implementation.sender.Sender
 Args={"db":"database.db"}
 MinThreads=2
 MaxThreads=2
-
-# Optional
-[TRANSACTION_HANDLER]
-Class=implementation.file_transaction_handler.FileTransactionHandler
-Args={"archive_dir":"out/archive", "error_dir":"out/error"}
 ```
 
 ## How to run
