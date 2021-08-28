@@ -256,12 +256,12 @@ class Connector(ThreadedServer):
                     self._commit(event.get_poll_reference(), success=True)
 
                 if event.exception or event.type == Constants.EVENT_ERROR:
-                    self.log_exception(exception=event.exception)
+                    if event.exception:
+                        self.log_exception(exception=event.exception)
 
                     self._commit(event.get_poll_reference(), success=False)
                     ConnectorStatistics.last_error = event.exception
                     if event.exception:
-                        self.log_error(event.exception)
                         if isinstance(event.exception, FatalException):
                             self._kill()
             time.sleep(1)

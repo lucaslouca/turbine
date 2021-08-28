@@ -17,7 +17,7 @@ class AbstractExtractor(ABC, LoggingComponent):
         try:
             result.result_list = self.extract(file)
         except Exception as e:
-            self.log_exception(message="Something went wrong during exctract", exception=e)
+            raise ExtractorException(message="Something went wrong during exctract", poll_reference=file) from e
         return result
 
     @abstractmethod

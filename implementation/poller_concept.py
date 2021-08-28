@@ -39,7 +39,7 @@ class PollerConcept(AbstractPoller):
         return self._read_tickers_file(file)
 
     def _generate_url_for_ticker(self, ticker: str, ciks_to_tickers: dict[str, str], concept: str) -> tuple[str, str, str]:
-        result = None
+        result = (ticker, concept, None)
 
         if ticker.lower() in ciks_to_tickers:
             cik = ciks_to_tickers[ticker.lower()]
@@ -83,21 +83,23 @@ class PollerConcept(AbstractPoller):
     @overrides(AbstractPoller)
     def poll(self, items):
         extraction_request = None
-        file = None
+        poll_reference = items
         success = False
         try:
             ticker, concept, year = items
             self.log(f"Polling '{concept}' for '{ticker}'")
-
             ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=PollerConcept._shared_cik_to_ticker_map, concept=concept)
-            file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
-            extraction_request = DataExtractionRequest(file=file, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
-            self.log(f"Polled '{file}'")
-            success = True
+            if url:
+                file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
+                if file:
+                    poll_reference = file
+                    extraction_request = DataExtractionRequest(file=poll_reference, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
+                    self.log(f"Polled '{poll_reference}'")
+                    success = True
         except Exception as e:
-            self.log_error(e)
+            self.log_exception(e)
         finally:
-            return (extraction_request, file, success)
+            return (extraction_request, poll_reference, success)
 
     @ overrides(AbstractPoller)
     def cleanup(self):

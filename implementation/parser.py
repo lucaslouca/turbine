@@ -77,16 +77,19 @@ class Parser(AbstractParser):
         return '\n'.join(result)
 
     @overrides(AbstractParser)
-    def parse(self, file: DataExtractionRequest, poll_reference=None):
+    def parse(self, request: DataExtractionRequest, poll_reference=None):
         result = []
-        do_extractors = [extractor for extractor in self._extractors if extractor.supports_input(file)]
+        do_extractors = [extractor for extractor in self._extractors if extractor.supports_input(request)]
         if not do_extractors:
             do_extractors = self._extractors_default
 
         for extractor in do_extractors:
-            if extractor.does_support_input(file):
-                extractor_result = extractor.do_extract(file)
-                result.append(extractor_result)
+            try:
+                if extractor.does_support_input(request):
+                    extractor_result = extractor.do_extract(request)
+                    result.append(extractor_result)
+            except Exception as e:
+                self.throw(e, poll_reference=request.file)
 
         if not result:
             self.log(f"Nothing extracted while parsing {poll_reference}")

@@ -148,7 +148,7 @@ MaxThreads=2
 # Optional
 [TRANSACTION_HANDLER]
 Class=implementation.file_transaction_handler.FileTransactionHandler
-Args={"archive_dir":"out/archive", "error_dir":"out/error"}
+Args={"error_dir":"out/error"}
 ```
 
 ## How to run

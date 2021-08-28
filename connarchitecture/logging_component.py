@@ -130,9 +130,6 @@ class LoggingComponent:
         self._event_queue = event_queue
 
     def throw(self, exception, poll_reference=None):
-        message = str(exception)
-        self.log_error(message)
-
         event = ConnectorEvent(type=Constants.EVENT_ERROR, exception=exception, poll_reference=poll_reference)
         self._event_queue.put(event)
 
