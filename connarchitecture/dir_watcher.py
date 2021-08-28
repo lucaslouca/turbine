@@ -6,7 +6,7 @@ import os
 import json
 
 
-class FileDirWatcher(LoggingComponent):
+class DirWatcher(LoggingComponent):
     def __init__(self, dir_to_watch, queue):
         LoggingComponent.__init__(self, self.component_name())
         self._dir_to_watch = dir_to_watch

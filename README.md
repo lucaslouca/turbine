@@ -86,14 +86,14 @@ Host=127.0.0.1
 Port=35813
 
 [POLLER_concepts]
-Class=implementation.concept_poller.ConceptPoller
+Class=implementation.poller_concept.PollerConcept
 Topic=concept
 Args={}
 MinThreads=2
 MaxThreads=2
 
 [POLLER_price]
-Class=implementation.price_poller.PricePoller
+Class=implementation.poller_price.PollerPrice
 Topic=price
 Args={}
 MinThreads=2

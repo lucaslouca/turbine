@@ -7,7 +7,7 @@ import requests
 import re
 
 
-class PricePoller(AbstractPoller):
+class PollerPrice(AbstractPoller):
     _shared_cik_to_ticker_map = {}
 
     def __init__(self, name, **kwargs):

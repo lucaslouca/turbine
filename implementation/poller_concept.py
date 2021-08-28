@@ -5,7 +5,7 @@ import os
 import requests
 
 
-class ConceptPoller(AbstractPoller):
+class PollerConcept(AbstractPoller):
     _shared_cik_to_ticker_map = {}
 
     def __init__(self, name, **kwargs):
@@ -69,7 +69,7 @@ class ConceptPoller(AbstractPoller):
     @overrides(AbstractPoller)
     def static_initialize(self):
         self.log('static init')
-        ConceptPoller._shared_cik_to_ticker_map = self._fetch_cik_to_ticker_map(file='cache/ticker.txt')
+        PollerConcept._shared_cik_to_ticker_map = self._fetch_cik_to_ticker_map(file='cache/ticker.txt')
 
     @overrides(AbstractPoller)
     def initialize(self):
@@ -89,7 +89,7 @@ class ConceptPoller(AbstractPoller):
             ticker, concept, year = items
             self.log(f"Polling '{concept}' for '{ticker}'")
 
-            ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=ConceptPoller._shared_cik_to_ticker_map, concept=concept)
+            ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=PollerConcept._shared_cik_to_ticker_map, concept=concept)
             file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
             extraction_request = DataExtractionRequest(file=file, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
             self.log(f"Polled '{file}'")

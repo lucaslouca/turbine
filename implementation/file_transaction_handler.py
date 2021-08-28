@@ -19,7 +19,7 @@ class FileTransactionHandler(AbstractTransactionHandler):
 
     @overrides(AbstractTransactionHandler)
     def on_event(self, file_path, success):
-        pass
+        self.log(file_path)
         '''
         if success:
             self._move(file_path, self._archive_dir)

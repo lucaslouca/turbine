@@ -4,7 +4,7 @@ from connarchitecture.server import ThreadedServer
 from connarchitecture.decorators import overrides
 from connarchitecture.queue import ConnectorQueue
 from connarchitecture.models import Transaction
-from connarchitecture.file_dir_watcher import FileDirWatcher
+from connarchitecture.dir_watcher import DirWatcher
 import json
 import configparser
 from queue import Empty
@@ -173,7 +173,7 @@ class Connector(ThreadedServer):
     def _start_dir_watcher(self, dir, queue):
         if not os.path.exists(dir):
             os.makedirs(dir)
-        dir_watcher = FileDirWatcher(dir_to_watch=dir, queue=queue)
+        dir_watcher = DirWatcher(dir_to_watch=dir, queue=queue)
         dir_watcher_thread = Thread(target=dir_watcher.run, args=())
         dir_watcher_thread.daemon = True
         dir_watcher_thread.start()
