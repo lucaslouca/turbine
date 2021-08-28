@@ -57,6 +57,7 @@ class AbstractPoller(AbstractWorker):
                     result = self.poll(items=items)
                     if result:
                         polled_result, poll_reference, success = result
+                        self._handle_result(polled_result, poll_reference)
                     if not success and poll_reference:
                         self.update(Constants.EVENT_ERROR, poll_reference)
                 except Empty:
@@ -65,8 +66,6 @@ class AbstractPoller(AbstractWorker):
             raise e
         except Exception as e:
             raise PollerException() from e
-        else:
-            self._handle_result(polled_result, poll_reference)
 
     def _handle_result(self, polled_result, poll_reference):
         if polled_result:

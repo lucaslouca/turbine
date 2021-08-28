@@ -59,7 +59,8 @@ class PollerConcept(AbstractPoller):
             os.makedirs(folder, exist_ok=True)
 
             self.log(f'Downloading {concept} for {ticker}')
-            r = requests.get(url, stream=True)
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
+            r = requests.get(url, headers=headers, stream=True)
             if r.status_code == requests.codes.ok:
                 with open(file, 'wb') as f:
                     for data in r:
@@ -98,9 +99,9 @@ class PollerConcept(AbstractPoller):
                     self.log(f"Polled '{poll_reference}'")
                     success = True
                 else:
-                    raise PollerException(message=f"Could not download {url}")
+                    self.log_error(message=f"Could not download {url}")
             else:
-                raise PollerException(message=f"No EDGAR API URL for {items}")
+                self.log_error(message=f"No EDGAR API URL for {items}")
         except Exception as e:
             self.log_exception(e)
         finally:
