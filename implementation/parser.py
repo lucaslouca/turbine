@@ -48,7 +48,34 @@ class FileParser(AbstractParser):
     def initialize(self):
         self.log("init")
         self._extractors = self._load_extractors()
-        self.log(f"Loaded {len(self._extractors)} extractor(s): {[ex.component_name() for ex in self._extractors]}")
+        self.log(f"Loaded {len(self._extractors)} extractor(s):\n{self._loaded_extractors_message(self._extractors)}\n")
+
+    def _loaded_extractors_message(self, extractors) -> str:
+        result = []
+        PAD = 4
+        COLUMNS = 3
+        extractor_names = sorted([ex.component_name() for ex in extractors])
+        max_name_len = max([len(name) for name in extractor_names])
+        max_number_len = len(str(len(extractors)+1))
+        column_width = max_name_len + max_number_len + PAD
+        no_of_lines = len(extractors)//COLUMNS + 1
+
+        start = 0
+        end = 0
+        line = "{:<{w}}"*COLUMNS + '\n'
+        for l in range(1, no_of_lines):
+            end = start + l*COLUMNS
+            fields = [f"{start+index+1}. {name}" for index, name in enumerate(extractor_names[start:end])]
+            result.append(line.format(*fields, **{'w': column_width}))
+            start = end
+
+        # Append any remaining extractors
+        if end < len(extractors):
+            line = "{:<{w}}"*(len(extractors) - end)
+            fields = [f"{end+index+1}. {name}" for index, name in enumerate(extractor_names[end:])]
+            result.append(line.format(*fields, **{'w': column_width}))
+
+        return '\n'.join(result)
 
     @overrides(AbstractParser)
     def parse(self, file: DataExtractionRequest, poll_reference=None):
