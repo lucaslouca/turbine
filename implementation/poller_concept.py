@@ -1,5 +1,6 @@
 from connarchitecture.abstract_poller import AbstractPoller
 from connarchitecture.decorators import overrides
+from connarchitecture.exceptions import PollerException
 from implementation.data_extraction_request import DataExtractionRequest
 import os
 import requests
@@ -83,7 +84,7 @@ class PollerConcept(AbstractPoller):
     @overrides(AbstractPoller)
     def poll(self, items):
         extraction_request = None
-        poll_reference = items
+        poll_reference = None
         success = False
         try:
             ticker, concept, year = items
@@ -96,6 +97,10 @@ class PollerConcept(AbstractPoller):
                     extraction_request = DataExtractionRequest(file=poll_reference, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
                     self.log(f"Polled '{poll_reference}'")
                     success = True
+                else:
+                    raise PollerException(message=f"Could not download {url}")
+            else:
+                raise PollerException(message=f"No EDGAR API URL for {items}")
         except Exception as e:
             self.log_exception(e)
         finally:
