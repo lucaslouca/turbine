@@ -38,7 +38,7 @@ class AbstractResult(ABC):
     def get_result(self):
         return self._result
 
-    def __str__(self):
+    def __repr__(self):
         if self._result and isinstance(self._result, list):
             cut = 10
             cutted_result = self._result[:cut]
@@ -55,6 +55,7 @@ class PollerResult(AbstractResult):
 
 class ParserResult(AbstractResult):
     pass
+
 
 class Transaction:
     def __init__(self, object, success):

@@ -51,6 +51,7 @@ class ThreadedServer(threading.Thread, SocketMsgSenderReceiver, LoggingComponent
 
     def run(self):
         self.log(f"server started at {self._host}:{self._port}")
+        sock = None
         try:
             sock = self._setup_socket(self._host, self._port)
 
@@ -72,7 +73,8 @@ class ThreadedServer(threading.Thread, SocketMsgSenderReceiver, LoggingComponent
                         client_thread.start()
 
         finally:
-            sock.close()
+            if sock:
+                sock.close()
 
     def stop_server(self):
         self._continue = False

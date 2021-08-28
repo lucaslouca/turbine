@@ -16,7 +16,7 @@ Turbine fetches company financial statement data filled with the SEC by leveragi
 * **Configurabe**: Turbine is fully customizable and configurable. Name, poller/parser/sender implementation can be configured using a `.ini` file.
 * **Logging**: Build in logging that can be configured using a `.ini` file. Any exceptions are automatically caught and properly logged.
 * **Multithreading**: For maximum performance you can define how many pollers, parsers and senders Turbine should spawn. It autimatically optimizes based on available CPUs.
-* **Transaction Handler**: You want to move successfully proccessed files (See [File Connector](#file-connector)) to an _archive_ directory and failed-to-proccess files to an _error_ folder? No problem. Just implement your custom Transaction Handler to get notified when a poll just finished or failed processing which you can then handle as you see fit.
+* **Transaction Handler**: You want to move successfully proccessed files to an _archive_ directory and failed-to-proccess files to an _error_ folder? No problem. Just implement your custom Transaction Handler to get notified when a poll just finished or failed processing which you can then handle as you see fit.
 * **Monitoring**: Turbine can be configured to listen on a specified port. Using the build in client a user can remotely connect to it and run basic queries or stop Turbine.
   
 ## Architecture
@@ -144,6 +144,11 @@ Class=implementation.sender.Sender
 Args={"db":"database.db"}
 MinThreads=2
 MaxThreads=2
+
+# Optional
+[TRANSACTION_HANDLER]
+Class=implementation.file_transaction_handler.FileTransactionHandler
+Args={"archive_dir":"out/archive", "error_dir":"out/error"}
 ```
 
 ## How to run
@@ -215,14 +220,14 @@ Notice also how the extractor comes with logging capabilities as well using `sel
 The framework comes also with a monitoring client. You can use this client to connect to your running connector and view its status or kill it.
 
 ```shell
-(env) $ python client.py 127.0.0.1 -p 35813
+(env) $ python3 client.py 127.0.0.1 -p 35813
 =============================================================
 Turbine
 -------------------------------------------------------------
-   Started: 2021-07-03 20:00:17.066630+02:00
-    Poller: Poller (2)
-    Parser: Parser (2)
-    Sender: Sender (2)
+   Started: 2021-08-28 11:21:24.364306+02:00
+    Poller: PollerConcept, PollerPrice - Total threads: (4)
+    Parser: Parser - Total threads: (2)
+    Sender: Sender - Total threads: (2)
 -------------------------------------------------------------
 Connector commands:
 -------------------------------------------------------------
@@ -236,9 +241,9 @@ Client commands:
 =============================================================
 
 command>stats
-         Polled: 5
-         Parsed: 5
-      Completed: 2
+         Polled: 8
+         Parsed: 8
+      Completed: 8
          Errors: 0
 
 command>stop

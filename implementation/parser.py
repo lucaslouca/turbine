@@ -1,7 +1,7 @@
 from connarchitecture.abstract_parser import AbstractParser
 from connarchitecture.decorators import overrides
 from implementation.abstract_extractor import AbstractExtractor
-from implementation.model.data_extraction_request import DataExtractionRequest
+from implementation.data_extraction_request import DataExtractionRequest
 from implementation.extractor_result import ExtractorResult
 import os
 

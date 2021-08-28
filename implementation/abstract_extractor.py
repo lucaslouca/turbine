@@ -1,5 +1,5 @@
 from connarchitecture.logging_component import LoggingComponent
-from implementation.model.data_extraction_request import DataExtractionRequest
+from implementation.data_extraction_request import DataExtractionRequest
 from implementation.extractor_result import ExtractorResult
 from implementation.exceptions import ExtractorException
 import os

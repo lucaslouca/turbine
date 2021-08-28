@@ -214,8 +214,9 @@ class Connector(ThreadedServer):
 
     def _head(self):
         result = ""
-        result += f"Poller Queue: {self._poller_out_queue.head()}\n"
-        result += f"Parser Queue: {self._parser_out_queue.head()}"
+        result += f"Poller Request Queue:\n{self._poller_in_queue.head()}\n"
+        result += f"Poller Output Queue:\n{self._poller_out_queue.head()}\n"
+        result += f"Parser Output Queue:\n{self._parser_out_queue.head()}"
         return result
 
     def _commit(self, poll_reference, success):
@@ -274,9 +275,12 @@ class Connector(ThreadedServer):
         hello += f"{self.get_name()}\n"
         hello += "-------------------------------------------------------------\n"
         hello += f"{'Started':>10}: {self._start_time}\n"
-        hello += f"{'Poller':>10}: {self._poller_class.__name__} ({len(self._pollers)})\n"
-        hello += f"{'Parser':>10}: {self._parser_class.__name__} ({len(self._parsers)})\n"
-        hello += f"{'Sender':>10}: {self._sender_class.__name__} ({len(self._senders)})\n"
+
+        poller_classes = ", ".join([self._poller_classes_config[s]['class'].__name__ for s in self._poller_classes_config])
+
+        hello += f"{'Poller':>10}: {poller_classes} - Total threads: ({len(self._pollers)})\n"
+        hello += f"{'Parser':>10}: {self._parser_class.__name__} - Total threads: ({len(self._parsers)})\n"
+        hello += f"{'Sender':>10}: {self._sender_class.__name__} - Total threads: ({len(self._senders)})\n"
         hello += "-------------------------------------------------------------\n"
         hello += "Connector commands:\n"
         hello += "-------------------------------------------------------------\n"

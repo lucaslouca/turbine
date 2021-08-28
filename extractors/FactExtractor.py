@@ -1,5 +1,5 @@
 from implementation.abstract_extractor import AbstractExtractor
-from implementation.model.data_extraction_request import DataExtractionRequest
+from implementation.data_extraction_request import DataExtractionRequest
 from connarchitecture.decorators import overrides
 from implementation.model.concept import Concept
 from implementation.model.ticker import Ticker

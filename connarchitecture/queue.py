@@ -9,6 +9,25 @@ class ConnectorQueue:
         self._default_queue = Queue()
         self._lock = Lock()
 
+    def _stringify_queue(self, name, q, k):
+        result = f" {name}: ["
+        d = q.queue
+        sep = ''
+        for i in range(min(len(d), k)):
+            result += sep
+            result += f"{d[i]}"
+            sep = ', '
+        result += "]\n"
+        return result
+
+    def head(self, k=5):
+        result = self._stringify_queue(name='default', q=self._default_queue, k=k)
+
+        for topic in self._topic_queues:
+            result += self._stringify_queue(name=topic, q=self._topic_queues[topic], k=k)
+
+        return result
+
     def put(self, *args, **kwargs):
         self._default_queue.put(*args, **kwargs)
 

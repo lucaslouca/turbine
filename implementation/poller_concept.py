@@ -1,6 +1,6 @@
 from connarchitecture.abstract_poller import AbstractPoller
 from connarchitecture.decorators import overrides
-from implementation.model.data_extraction_request import DataExtractionRequest
+from implementation.data_extraction_request import DataExtractionRequest
 import os
 import requests
 
