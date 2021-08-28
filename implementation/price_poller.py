@@ -1,11 +1,8 @@
 from connarchitecture.abstract_poller import AbstractPoller
 from connarchitecture.decorators import overrides
-from connarchitecture.queue import ConnectorQueue
 from implementation.model.data_extraction_request import DataExtractionRequest
-from implementation.file_dir_watcher import FileDirWatcher
 import os
 from datetime import datetime
-from threading import Thread
 import requests
 import re
 
@@ -15,21 +12,11 @@ class PricePoller(AbstractPoller):
 
     def __init__(self, name, **kwargs):
         AbstractPoller.__init__(self, name)
-        self._file_dir = 'in'
         self._cache_dir = 'cache/prices'
-        if not os.path.exists(self._file_dir):
-            os.makedirs(self._file_dir)
-
-    def _spawn_dir_watcher(self, dir):
-        dir_watcher = FileDirWatcher(dir, self._in_queue)
-        dir_watcher_thread = Thread(target=dir_watcher.run, args=())
-        dir_watcher_thread.daemon = True
-        dir_watcher_thread.start()
 
     @overrides(AbstractPoller)
     def static_initialize(self):
         self.log('static init')
-        self._spawn_dir_watcher(self._file_dir)
 
     @overrides(AbstractPoller)
     def initialize(self):

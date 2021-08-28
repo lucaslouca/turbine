@@ -12,7 +12,7 @@ from threading import Lock
 from typing import List
 
 
-class FileSQLiteSender(AbstractSender):
+class Sender(AbstractSender):
     _shared_db_conn = None
     _db_lock = Lock()
     _Session = None
@@ -23,7 +23,7 @@ class FileSQLiteSender(AbstractSender):
 
     def _init_database(self):
         engine = create_engine(f'sqlite:///{self._db_name}')
-        FileSQLiteSender._Session = sessionmaker(bind=engine)
+        Sender._Session = sessionmaker(bind=engine)
         db.Base.metadata.create_all(engine)
 
     @overrides(AbstractSender)
@@ -36,7 +36,7 @@ class FileSQLiteSender(AbstractSender):
         self.log("init")
 
     def _persist(self, data: List[Data]):
-        session = FileSQLiteSender._Session()
+        session = Sender._Session()
         for d in data:
             ticker = d.get_ticker()
             db_ticker = session.query(Ticker.id).filter_by(symbol=ticker.symbol).first()

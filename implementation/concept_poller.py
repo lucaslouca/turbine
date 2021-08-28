@@ -1,12 +1,7 @@
 from connarchitecture.abstract_poller import AbstractPoller
 from connarchitecture.decorators import overrides
-from connarchitecture.queue import ConnectorQueue
 from implementation.model.data_extraction_request import DataExtractionRequest
-from implementation.file_dir_watcher import FileDirWatcher
 import os
-from pathlib import Path
-from threading import Thread
-from queue import Empty
 import requests
 
 
@@ -15,16 +10,7 @@ class ConceptPoller(AbstractPoller):
 
     def __init__(self, name, **kwargs):
         AbstractPoller.__init__(self, name)
-        self._file_dir = 'in'
         self._cache_dir = 'cache/concepts'
-        if not os.path.exists(self._file_dir):
-            os.makedirs(self._file_dir)
-
-    def _spawn_dir_watcher(self, dir):
-        dir_watcher = FileDirWatcher(dir, self._in_queue)
-        dir_watcher_thread = Thread(target=dir_watcher.run, args=())
-        dir_watcher_thread.daemon = True
-        dir_watcher_thread.start()
 
     def _download_tickers(self, file: str) -> str:
         self.log('Downloading CIK <-> tickers mapping')
@@ -83,7 +69,6 @@ class ConceptPoller(AbstractPoller):
     @overrides(AbstractPoller)
     def static_initialize(self):
         self.log('static init')
-        self._spawn_dir_watcher(self._file_dir)
         ConceptPoller._shared_cik_to_ticker_map = self._fetch_cik_to_ticker_map(file='cache/ticker.txt')
 
     @overrides(AbstractPoller)

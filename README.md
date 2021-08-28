@@ -1,32 +1,34 @@
-# Connector
-:alien: A generic framework that quickly enables a user to implement a multithreaded Poller/Parser/Sender connector.
+# Turbine
+Turbine fetches company financial statement data filled with the SEC by leveraging the [EDGAR API](https://www.sec.gov/edgar/sec-api-documentation) as well as historical price data from [Yahoo Finance](https://finance.yahoo.com/).
 
 ## Table of Contents
-- [Connector](#connector)
+- [Turbine](#turbine)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Architecture](#architecture)
   - [Setup IDE](#setup-ide)
   - [Configuration](#configuration)
   - [How to run](#how-to-run)
-  - [File Connector](#file-connector)
+  - [Extractors](#extractors)
   - [Client](#client)
 
 ## Features
-* **Configurabe**: The connector is fully customizable and configurable. Connector name, poller/parser/sender implementation can be configured using a `.ini` file.
+* **Configurabe**: Turbine is fully customizable and configurable. Name, poller/parser/sender implementation can be configured using a `.ini` file.
 * **Logging**: Build in logging that can be configured using a `.ini` file. Any exceptions are automatically caught and properly logged.
-* **Multithreading**: For maximum performance you can define how many pollers, parsers and senders the connector should spawn. It autimatically optimizes based on available CPUs.
+* **Multithreading**: For maximum performance you can define how many pollers, parsers and senders Turbine should spawn. It autimatically optimizes based on available CPUs.
 * **Transaction Handler**: You want to move successfully proccessed files (See [File Connector](#file-connector)) to an _archive_ directory and failed-to-proccess files to an _error_ folder? No problem. Just implement your custom Transaction Handler to get notified when a poll just finished or failed processing which you can then handle as you see fit.
-* **Monitoring**: The connector can be configured to listen on a specified port. Using the build in client a user can remotely connect to the connector and run basic queries or kill the connector.
+* **Monitoring**: Turbine can be configured to listen on a specified port. Using the build in client a user can remotely connect to it and run basic queries or stop Turbine.
   
 ## Architecture
 The main workers of the framework are the _Poller_, _Parser_ and the _Sender_.
 
-**Poller**: Poller threads connect to the source and poll for data. The source can be a database, file system, Web API, etc. The data returned by the Poller is then passed on to the Parser for further processing.
+**DirectoryWatcher**: The DirectoryWatcher watches the _input_ directory for any incoming `request.json` files. These files contain information about what data Turbine should fetch.
 
-**Parser**: Parsers get the data polled by the Pollers. They implement the parsing logic such as extracting specific data or generating JSON objects. The results are then passed on to the Senders.
+**Poller**: Poller threads connect to the source and poll for data. The source can be a database, file system, Web API, etc. The data is cached on disc as JSON or CSV file and then passed on to the Parser for further processing. Pollers will look if the requested data is cached before trying to fetch it from the original source. If you want to force the Pollers to re-fetch the data from the source you must erase the `cache` directory.
 
-**Sender**: Sender threads are responsible for persisting or passing the processed data on to a different service. For example Senders can persist the data into a relational database or publish to a Kafka topic.
+**Parser**: Parsers get the data files polled by the Pollers. They extract data and make it available for persistence. For that they dynamically load extractors from disc that handle the different data formats. The results are then passed on to the Senders.
+
+**Sender**: Sender threads are responsible for persisting data into an SQLite database.
 
 ![System Landscape](documentation/System_Landscape.png)
 
@@ -34,21 +36,17 @@ The main workers of the framework are the _Poller_, _Parser_ and the _Sender_.
 Here is an example on how to setup VSCode for use with this project. You can use any IDE you like.
 
 ```shell
-$ git clone https://github.com/lucaslouca/pps-connector
-$ cd pps-connector
+$ git clone https://github.com/lucaslouca/turbine
+$ cd turbine
 
 # Create and activate virtual environment
 $ python3 -m venv env
 $ source env/bin/activate
 ```
 
-In order to run the provided sample connectors you have to install the following libraries:
+Install the required libraries:
 ```shell
-# Used by Directory Watcher
-(env) $ pip install watchdog
-
-# For AWS S3 Sender
-(env) $ pip install boto3
+(env) $ pip install -r requirements.txt 
 ```
 
 Finally open the project in VSCode:
@@ -58,20 +56,20 @@ Finally open the project in VSCode:
 
 Make sure VSCode also opens the project in the correct virtual environment.
 
-Create a new launch configuration. Below is a run configuration to launch the `File Connector` using VSCode:
+Create a new launch configuration. Below is a run configuration to launch Turbine within VSCode:
 ```json
 {
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Directory Connector",
+            "name": "Turbine",
             "type": "python",
             "request": "launch",
             "program": "${workspaceRoot}/main.py",
             "console": "integratedTerminal",
             "args": [
                 "-c",
-                "config/file_connector.ini"
+                "config/connector.ini"
             ]
         }
     ]
@@ -79,28 +77,36 @@ Create a new launch configuration. Below is a run configuration to launch the `F
 ```
 
 ## Configuration
-Below is a sample configuration for the [File Connector](#file-connector):
+Below is a sample configuration:
 
 ```ini
 [CONNECTOR]
-Name=File Connector
+Name=Turbine
 Host=127.0.0.1
 Port=35813
 
-[POLLER]
-Class=implementation.poller.Poller
-Args={"file_dir":"in"}
+[POLLER_concepts]
+Class=implementation.concept_poller.ConceptPoller
+Topic=concept
+Args={}
+MinThreads=2
+MaxThreads=2
+
+[POLLER_price]
+Class=implementation.price_poller.PricePoller
+Topic=price
+Args={}
 MinThreads=2
 MaxThreads=2
 
 [PARSER]
-Class=implementation.parser.FileParser
+Class=implementation.parser.Parser
 Args={}
 MinThreads=2
 MaxThreads=2
 
 [SENDER]
-Class=implementation.sender.FileSQLiteSender
+Class=implementation.sender.Sender
 Args={"db":"database.db"}
 MinThreads=2
 MaxThreads=2
@@ -118,62 +124,61 @@ $ source env/bin/activate
 
 CONNECTORS
 -------------------------------------------------------------
-[0] - XBRL Index Connector
-[1] - XBRL Download Connector
-[2] - File Connector
-Connector to start> 2
+[0] - Turbine
+Connector to start> 0
 ...
 ```
 
-To start the connector in the background just run it using `screen`:
+To start the Turbine in the background just run it using `screen`:
 ```shell
-(env) $ screen -S "connector" -dm python main.py
+(env) $ screen -S "turbine" -dm python main.py
 ```
 
 You can see that the framework automatically picks up any configuration files found in the `config` directory and lists them as a run option.
 
-## File Connector
-The project comes with a few pre-implemented connectors. One of them is the File Connector.
+## Extractors
 
-This is a connector that polls files from the file system, parses the files based on their file type using custom extractors and then persists the extracted data (e.g.: e-mail address) into a SQLite database.
-
-**Create Custom Extractors**
-
-You can easily create your custom extractors by subclassing the `AbstractExtractor` class and place the file into the `extractors` folder. The connector will pick them up automatically on next restart.
+You can easily create your custom extractors by subclassing the `AbstractExtractor` class and place the file into the `extractors` folder. Turbine will pick them up automatically on the next restart.
 
 > **Important**: Your extractor class name must be the same as the file name of the Python file that contains it. For example, if your custom extractor is called `YourCustomExtractor`, then it must be placed in a Python file called `YourCustomExtractor.py` under the `extractors` directory.
 
-Here is an example of an extractor that does regex matching for each line in a `.TXT` file in order to return any contained E-Mails:
+Here is an example of an extractor that processes CSV files:
 
 ```Python
-from implementation.abstract_extractor import AbstractExtractor
-from implementation.model.data_extraction_request import DataExtractionRequest
-from connarchitecture.decorators import overrides
-import re
-
-
-class FactExtractor(AbstractExtractor):
+class PriceExtractor(AbstractExtractor):
     @overrides(AbstractExtractor)
-    def supports_input(self, file: DataExtractionRequest):
-        return file.extension and file.extension.upper() == ".TXT"
+    def supports_input(self, request: DataExtractionRequest):
+        return request.file_extension and request.file_extension.upper() == ".CSV"
 
-    @overrides(AbstractExtractor)
-    def extract(self, file: DataExtractionRequest):
-        self.log(f"Proccessing '{file.file_path}'")
-        pattern = re.compile("[\w\.-]+@[\w\.-]+")
+    ...
 
-        emails = []
-        for i, line in enumerate(open(file.file_path)):
-            emails += pattern.findall(line)
+    @ overrides(AbstractExtractor)
+    def extract(self, request: DataExtractionRequest):
+        self.log(f"Proccessing '{request.file}'")
+        result = []
+        rows = self._read_rows_from_file(file=request.file)
+        for row in rows:
+            try:
+                result.append(
+                    Price(
+                        ticker=Ticker(symbol=request.ticker),
+                        date=dt.datetime.strptime(row['Date'], "%Y-%m-%d").date(),
+                        open=float(row['Open']),
+                        high=float(row['High']),
+                        low=float(row['Low']),
+                        close=float(row['Close']),
+                        adj_close=float(row['Adj Close']),
+                        volume=float(row['Volume'])
+                    )
+                )
+            except Exception as e:
+                self.log_exception(exception=e)
 
-        if emails:
-            return {'emails': emails}
-        else:
-            return {}
+        return result
 ```
-In the above example the method `supports_input(...)` simply tells the framework that this extractor can only be used for text files.
+In the above example the method `supports_input(...)` simply tells the framework that this extractor can only be used for files that have the extension `.csv`.
 
-The `extract(...)` method should return a dictionary that holds the extracted type (e.g. `emails`) as key and the extracted values as a list.
+The `extract(...)` method should return a list of _model_ objects that hold the extracted values.
 
 Notice also how the extractor comes with logging capabilities as well using `self.log(...)`.
 
@@ -183,19 +188,12 @@ The framework comes also with a monitoring client. You can use this client to co
 ```shell
 (env) $ python client.py 127.0.0.1 -p 35813
 =============================================================
-
-          _____                       __          
-         / ___/__  ___  ___  ___ ____/ /____  ____
-        / /__/ _ \/ _ \/ _ \/ -_) __/ __/ _ \/ __/
-        \___/\___/_//_/_//_/\__/\__/\__/\___/_/
-        
-=============================================================
-File Connector
+Turbine
 -------------------------------------------------------------
    Started: 2021-07-03 20:00:17.066630+02:00
     Poller: Poller (2)
-    Parser: FileParser (2)
-    Sender: FileSQLiteSender (2)
+    Parser: Parser (2)
+    Sender: Sender (2)
 -------------------------------------------------------------
 Connector commands:
 -------------------------------------------------------------

@@ -4,10 +4,9 @@ from implementation.abstract_extractor import AbstractExtractor
 from implementation.model.data_extraction_request import DataExtractionRequest
 from implementation.extractor_result import ExtractorResult
 import os
-import copy
 
 
-class FileParser(AbstractParser):
+class Parser(AbstractParser):
     def __init__(self, name, **kwargs):
         AbstractParser.__init__(self, name, **kwargs)
         self._extractors = []

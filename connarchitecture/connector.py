@@ -4,14 +4,16 @@ from connarchitecture.server import ThreadedServer
 from connarchitecture.decorators import overrides
 from connarchitecture.queue import ConnectorQueue
 from connarchitecture.models import Transaction
+from connarchitecture.file_dir_watcher import FileDirWatcher
 import json
 import configparser
 from queue import Empty
 import multiprocessing
 import time
-import sys
 from abc import ABC
 from datetime import datetime, timezone
+from threading import Thread
+import os
 
 
 class ConnectorStatistics(ABC):
@@ -71,6 +73,8 @@ class Connector(ThreadedServer):
         self._name = config.get(Constants.CONFIG_SECTION_CONNECTOR, Constants.CONFIG_CONNECTOR_NAME)
         self._host = config.get(Constants.CONFIG_SECTION_CONNECTOR, Constants.CONFIG_CONNECTOR_HOST)
         self._port = int(config.get(Constants.CONFIG_SECTION_CONNECTOR, Constants.CONFIG_CONNECTOR_PORT))
+
+        self._directory_watcher_directory = config.get(Constants.CONFIG_SECTION_CDIRECTORY_WATCHER, Constants.CONFIG_DIRECTORY_WATCHER_DIRECTORY)
 
         self._poller_classes_config = {}
         for section in config.sections():
@@ -166,6 +170,14 @@ class Connector(ThreadedServer):
             if t.is_alive():
                 t.join()
 
+    def _start_dir_watcher(self, dir, queue):
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        dir_watcher = FileDirWatcher(dir_to_watch=dir, queue=queue)
+        dir_watcher_thread = Thread(target=dir_watcher.run, args=())
+        dir_watcher_thread.daemon = True
+        dir_watcher_thread.start()
+
     def _stop_workers(self, threads):
         for t in threads:
             t.stop()
@@ -226,6 +238,8 @@ class Connector(ThreadedServer):
         if self._transaction_handler:
             self._start_workers([self._transaction_handler])
 
+        self._start_dir_watcher(dir=self._directory_watcher_directory, queue=self._poller_in_queue)
+
         self.start()
 
         self._continue = True
@@ -257,13 +271,6 @@ class Connector(ThreadedServer):
     @overrides(ThreadedServer)
     def get_hello_message(self):
         hello = "=============================================================\n"
-        hello += """
-          _____                       __          
-         / ___/__  ___  ___  ___ ____/ /____  ____
-        / /__/ _ \/ _ \/ _ \/ -_) __/ __/ _ \/ __/
-        \___/\___/_//_/_//_/\__/\__/\__/\___/_/
-        \n"""
-        hello += "=============================================================\n"
         hello += f"{self.get_name()}\n"
         hello += "-------------------------------------------------------------\n"
         hello += f"{'Started':>10}: {self._start_time}\n"
