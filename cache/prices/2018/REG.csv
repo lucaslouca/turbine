@@ -1,0 +1,1 @@
+{"chart":{"result":null,"error":{"code":"internal-error","description":"CircuitBreaker 'redis' is OPEN and does not permit further calls"}}}

@@ -15,13 +15,10 @@ class PriceExtractor(AbstractExtractor):
 
     def _read_rows_from_file(self, file: str) -> list[dict]:
         result = []
-        try:
-            with open(file, newline='') as csvfile:
-                csvreader = csv.DictReader(csvfile)
-                for row in csvreader:
-                    result.append(row)
-        except Exception as e:
-            self.log_exception(exception=e)
+        with open(file, newline='') as csvfile:
+            csvreader = csv.DictReader(csvfile)
+            for row in csvreader:
+                result.append(row)
         return result
 
     @ overrides(AbstractExtractor)
@@ -30,20 +27,17 @@ class PriceExtractor(AbstractExtractor):
         result = []
         rows = self._read_rows_from_file(file=request.file)
         for row in rows:
-            try:
-                result.append(
-                    Price(
-                        ticker=Ticker(symbol=request.ticker),
-                        date=dt.datetime.strptime(row['Date'], "%Y-%m-%d").date(),
-                        open=float(row['Open']),
-                        high=float(row['High']),
-                        low=float(row['Low']),
-                        close=float(row['Close']),
-                        adj_close=float(row['Adj Close']),
-                        volume=float(row['Volume'])
-                    )
+            result.append(
+                Price(
+                    ticker=Ticker(symbol=request.ticker),
+                    date=dt.datetime.strptime(row['Date'], "%Y-%m-%d").date(),
+                    open=float(row['Open']),
+                    high=float(row['High']),
+                    low=float(row['Low']),
+                    close=float(row['Close']),
+                    adj_close=float(row['Adj Close']),
+                    volume=float(row['Volume'])
                 )
-            except Exception as e:
-                self.log_exception(exception=e)
+            )
 
         return result

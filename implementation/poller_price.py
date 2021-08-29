@@ -1,5 +1,6 @@
 from connarchitecture.abstract_poller import AbstractPoller
 from connarchitecture.decorators import overrides
+from connarchitecture.poll_reference import PollReference
 from implementation.data_extraction_request import DataExtractionRequest
 import os
 from datetime import datetime
@@ -70,17 +71,23 @@ class PollerPrice(AbstractPoller):
     @ overrides(AbstractPoller)
     def poll(self, items):
         extraction_request = None
-        file = None
+        poll_reference = PollReference()
         success = False
 
         ticker, year = items
+        poll_reference.ticker = ticker
+        poll_reference.year = year
+        poll_reference.poller = self.get_name()
+
         self.log(f"Polling {ticker} historical data for year: {year}")
 
         file = self._download_historical_data(ticker=ticker, fy=year, destination_root_dir=self._cache_dir)
-        extraction_request = DataExtractionRequest(file=file, ticker=ticker, data={'year': year})
+        if file:
+            poll_reference.file = file
+            extraction_request = DataExtractionRequest(file=file, ticker=ticker, data={'year': year})
+            success = True
 
-        success = True
-        return (extraction_request, file, success)
+        return (extraction_request, poll_reference, success)
 
     @ overrides(AbstractPoller)
     def cleanup(self):

@@ -1,6 +1,7 @@
 from connarchitecture.abstract_poller import AbstractPoller
 from connarchitecture.decorators import overrides
 from connarchitecture.exceptions import PollerException
+from connarchitecture.poll_reference import PollReference
 from implementation.data_extraction_request import DataExtractionRequest
 import os
 import requests
@@ -85,16 +86,22 @@ class PollerConcept(AbstractPoller):
     @overrides(AbstractPoller)
     def poll(self, items):
         extraction_request = None
-        poll_reference = None
+        poll_reference = PollReference()
         success = False
         try:
             ticker, concept, year = items
+            poll_reference.ticker = ticker
+            poll_reference.year = year
+            poll_reference.concept = concept
+            poll_reference.poller = self.get_name()
+
             self.log(f"Polling '{concept}' for '{ticker}'")
             ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=PollerConcept._shared_cik_to_ticker_map, concept=concept)
             if url:
+                poll_reference.url = url
                 file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
                 if file:
-                    poll_reference = file
+                    poll_reference.file = file
                     extraction_request = DataExtractionRequest(file=poll_reference, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
                     self.log(f"Polled '{poll_reference}'")
                     success = True
