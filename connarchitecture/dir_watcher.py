@@ -56,7 +56,7 @@ class Handler(FileSystemEventHandler, LoggingComponent):
                 tuples = self._generate_price_tuples(file=file)
             for t in tuples:
                 topic = t[0]
-                self.log(f"Adding '{t}' to queue")
+                #self.log(f"Adding '{t}' to queue")
                 self._queue.put_topic(topic, t[1:])
 
     def _load_files(self, dir):

@@ -24,9 +24,8 @@ class FactExtractor(AbstractExtractor):
 
     @overrides(AbstractExtractor)
     def extract(self, request: DataExtractionRequest):
-        self.log(f"Proccessing '{request.file}'")
         result = []
-        value = self._find_value_for_concept(file=request.file, fy=request.data['year'])
+        value = self._find_value_for_concept(file=request.poll_reference.file, fy=request.data['year'])
         if value:
             result.append(
                 Concept(

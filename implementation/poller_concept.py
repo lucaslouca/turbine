@@ -54,7 +54,7 @@ class PollerConcept(AbstractPoller):
         file = f'{folder}/{concept}.json'
 
         if os.path.exists(file):
-            self.log(f'Using cached {concept} ({file})')
+            # self.log(f'Using cached {concept} ({file})')
             return file
         else:
             os.makedirs(folder, exist_ok=True)
@@ -95,15 +95,13 @@ class PollerConcept(AbstractPoller):
             poll_reference.concept = concept
             poll_reference.poller = self.get_name()
 
-            self.log(f"Polling '{concept}' for '{ticker}'")
             ticker, concept, url = self._generate_url_for_ticker(ticker=ticker, ciks_to_tickers=PollerConcept._shared_cik_to_ticker_map, concept=concept)
             if url:
                 poll_reference.url = url
                 file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
                 if file:
                     poll_reference.file = file
-                    extraction_request = DataExtractionRequest(file=poll_reference, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
-                    self.log(f"Polled '{poll_reference}'")
+                    extraction_request = DataExtractionRequest(poll_reference=poll_reference, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
                     success = True
                 else:
                     self.log_error(message=f"Could not download {url}")

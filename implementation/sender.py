@@ -59,12 +59,10 @@ class Sender(AbstractSender):
 
     @overrides(AbstractSender)
     def process(self, result: List[ExtractorResult], poll_reference=None):
-        self.log(f"Processing {poll_reference}")
         for extractor_result in result:
             if extractor_result.result_list:
-                self.log(f"Got {len(extractor_result.result_list)} finding(s) from {extractor_result.extractor_name}")
+                self.log(f"Got {len(extractor_result.result_list)} finding(s) for {poll_reference}")
                 self._persist(extractor_result.result_list)
-        self.log(f"Finished processing {poll_reference}")
 
     @overrides(AbstractSender)
     def cleanup(self):

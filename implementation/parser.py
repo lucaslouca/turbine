@@ -89,10 +89,7 @@ class Parser(AbstractParser):
                     extractor_result = extractor.do_extract(request)
                     result.append(extractor_result)
             except Exception as e:
-                self.throw(e, poll_reference=request.file)
-
-        if not result:
-            self.log(f"Nothing extracted while parsing {poll_reference}")
+                self.throw(e, poll_reference=request.poll_reference)
 
         return result
 

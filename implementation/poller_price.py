@@ -39,7 +39,7 @@ class PollerPrice(AbstractPoller):
         end = int(self._epoch(year=fy, month=12, day=31))
 
         if os.path.exists(file):
-            self.log(f'Using cached historical data (file={file}) for {ticker}')
+            # self.log(f'Using cached historical data (file={file}) for {ticker}')
             return file
         else:
             os.makedirs(folder, exist_ok=True)
@@ -79,12 +79,10 @@ class PollerPrice(AbstractPoller):
         poll_reference.year = year
         poll_reference.poller = self.get_name()
 
-        self.log(f"Polling {ticker} historical data for year: {year}")
-
         file = self._download_historical_data(ticker=ticker, fy=year, destination_root_dir=self._cache_dir)
         if file:
             poll_reference.file = file
-            extraction_request = DataExtractionRequest(file=file, ticker=ticker, data={'year': year})
+            extraction_request = DataExtractionRequest(poll_reference=poll_reference, ticker=ticker, data={'year': year})
             success = True
 
         return (extraction_request, poll_reference, success)
