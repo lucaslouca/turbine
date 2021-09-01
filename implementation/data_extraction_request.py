@@ -8,6 +8,10 @@ class DataExtractionRequest:
         self.data = data
 
     @property
+    def file(self):
+        return self.poll_reference.file
+
+    @property
     def file_extension(self):
         _, file_extension = os.path.splitext(self.poll_reference.file)
         return file_extension.upper() if file_extension else 'UNKNOWN_EXTENSION'

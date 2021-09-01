@@ -24,7 +24,7 @@ class PriceExtractor(AbstractExtractor):
     @ overrides(AbstractExtractor)
     def extract(self, request: DataExtractionRequest):
         result = []
-        rows = self._read_rows_from_file(file=request.poll_reference.file)
+        rows = self._read_rows_from_file(file=request.file)
         for row in rows:
             result.append(
                 Price(
