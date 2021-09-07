@@ -512,6 +512,26 @@
             "concepts": [
                 {
                     "name": "AccountsPayableCurrent",
+                    "year": 2009
+                },
+                {
+                    "name": "AccountsPayableCurrent",
+                    "year": 2010
+                },
+                {
+                    "name": "AccountsPayableCurrent",
+                    "year": 2011
+                },
+                {
+                    "name": "AccountsPayableCurrent",
+                    "year": 2012
+                },
+                {
+                    "name": "AccountsPayableCurrent",
+                    "year": 2013
+                },
+                {
+                    "name": "AccountsPayableCurrent",
                     "year": 2014
                 },
                 {
@@ -533,6 +553,26 @@
                 {
                     "name": "AccountsPayableCurrent",
                     "year": 2019
+                },
+                {
+                    "name": "LongTermDebt",
+                    "year": 2009
+                },
+                {
+                    "name": "LongTermDebt",
+                    "year": 2010
+                },
+                {
+                    "name": "LongTermDebt",
+                    "year": 2011
+                },
+                {
+                    "name": "LongTermDebt",
+                    "year": 2012
+                },
+                {
+                    "name": "LongTermDebt",
+                    "year": 2013
                 },
                 {
                     "name": "LongTermDebt",
