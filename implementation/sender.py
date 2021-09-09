@@ -61,7 +61,8 @@ class Sender(AbstractSender):
     def process(self, result: List[ExtractorResult], poll_reference=None):
         for extractor_result in result:
             if extractor_result.result_list:
-                self.log(f"Got {len(extractor_result.result_list)} finding(s) for {poll_reference}")
+                c_width = 15 if poll_reference.concept else 0
+                self.log(f"""Ticker: {poll_reference.ticker:<5} | Results: {len(extractor_result.result_list):<3} {('| Concept: {}'.format(poll_reference.concept) if poll_reference.concept else ''):<{c_width}}""")
                 self._persist(extractor_result.result_list)
 
     @overrides(AbstractSender)
