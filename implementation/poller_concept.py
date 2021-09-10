@@ -5,6 +5,7 @@ from connarchitecture.poll_reference import PollReference
 from implementation.data_extraction_request import DataExtractionRequest
 import os
 import requests
+import time
 
 
 class PollerConcept(AbstractPoller):
@@ -58,6 +59,8 @@ class PollerConcept(AbstractPoller):
             return file
         else:
             os.makedirs(folder, exist_ok=True)
+
+            time.sleep(0.500)
 
             self.log(f'Downloading {concept} for {ticker}')
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
