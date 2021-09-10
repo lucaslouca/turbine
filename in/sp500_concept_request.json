@@ -511,91 +511,47 @@
             ],
             "concepts": [
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2009
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2010
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2011
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2012
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2013
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2014
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2015
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2016
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2017
                 },
                 {
-                    "name": "AccountsPayableCurrent",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2018
                 },
                 {
-                    "name": "AccountsPayableCurrent",
-                    "year": 2019
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2009
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2010
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2011
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2012
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2013
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2014
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2015
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2016
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2017
-                },
-                {
-                    "name": "LongTermDebt",
-                    "year": 2018
-                },
-                {
-                    "name": "LongTermDebt",
+                    "name": "EarningsPerShareDiluted",
                     "year": 2019
                 }
             ]
