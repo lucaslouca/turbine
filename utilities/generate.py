@@ -1,3 +1,10 @@
+'''
+EDGAR Application Programming Interfaces:
+• https://www.sec.gov/edgar/sec-api-documentation
+• https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json
+
+'''
+
 import csv
 import json
 
@@ -16,7 +23,7 @@ def read_csv(file: str) -> list[dict]:
 
 def main():
     years = [y for y in range(2009, 2020)]
-    concepts = ['EarningsPerShareDiluted']
+    concepts = ['EarningsPerShareDiluted', 'CommonStockSharesOutstanding']
     rows = read_csv(file='SP500.csv')
     tickers = sorted([d['Symbol'] for d in rows])
 

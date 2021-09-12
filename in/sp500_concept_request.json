@@ -553,6 +553,50 @@
                 {
                     "name": "EarningsPerShareDiluted",
                     "year": 2019
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2009
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2010
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2011
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2012
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2013
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2014
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2015
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2016
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2017
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2018
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2019
                 }
             ]
         }
