@@ -23,7 +23,7 @@ def read_csv(file: str) -> list[dict]:
 
 def main():
     years = [y for y in range(2009, 2020)]
-    concepts = ['EarningsPerShareDiluted', 'CommonStockSharesOutstanding']
+    concepts = ['CommonStockSharesOutstanding', 'EarningsPerShareDiluted', 'LongTermDebt']
     rows = read_csv(file='SP500.csv')
     tickers = sorted([d['Symbol'] for d in rows])
 

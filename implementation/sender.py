@@ -62,7 +62,7 @@ class Sender(AbstractSender):
         for extractor_result in result:
             if extractor_result.result_list:
                 c_width = 15 if poll_reference.concept else 0
-                self.log(f"""Ticker: {poll_reference.ticker:<5} | Results: {len(extractor_result.result_list):<3} {('| Concept: {}'.format(poll_reference.concept) if poll_reference.concept else ''):<{c_width}}""")
+                self.log(f"""Ticker: {poll_reference.ticker:<5} | Results: {len(extractor_result.result_list):<3} {('| Concept: {}'.format(poll_reference.concept) if poll_reference.concept else ''):<{c_width}} | Year: {poll_reference.year:<4}""")
                 self._persist(extractor_result.result_list)
 
     @overrides(AbstractSender)

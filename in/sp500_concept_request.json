@@ -511,6 +511,50 @@
             ],
             "concepts": [
                 {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2009
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2010
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2011
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2012
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2013
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2014
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2015
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2016
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2017
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2018
+                },
+                {
+                    "name": "CommonStockSharesOutstanding",
+                    "year": 2019
+                },
+                {
                     "name": "EarningsPerShareDiluted",
                     "year": 2009
                 },
@@ -555,47 +599,47 @@
                     "year": 2019
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2009
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2010
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2011
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2012
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2013
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2014
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2015
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2016
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2017
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2018
                 },
                 {
-                    "name": "CommonStockSharesOutstanding",
+                    "name": "LongTermDebt",
                     "year": 2019
                 }
             ]
