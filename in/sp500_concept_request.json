@@ -512,135 +512,168 @@
             "concepts": [
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2009
+                    "year": 2009,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2010
+                    "year": 2010,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2011
+                    "year": 2011,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2012
+                    "year": 2012,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2013
+                    "year": 2013,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2014
+                    "year": 2014,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2015
+                    "year": 2015,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2016
+                    "year": 2016,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2017
+                    "year": 2017,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2018
+                    "year": 2018,
+                    "units": "shares"
                 },
                 {
                     "name": "CommonStockSharesOutstanding",
-                    "year": 2019
+                    "year": 2019,
+                    "units": "shares"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2009
+                    "year": 2009,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2010
+                    "year": 2010,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2011
+                    "year": 2011,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2012
+                    "year": 2012,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2013
+                    "year": 2013,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2014
+                    "year": 2014,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2015
+                    "year": 2015,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2016
+                    "year": 2016,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2017
+                    "year": 2017,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2018
+                    "year": 2018,
+                    "units": "USD"
                 },
                 {
                     "name": "EarningsPerShareDiluted",
-                    "year": 2019
+                    "year": 2019,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2009
+                    "year": 2009,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2010
+                    "year": 2010,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2011
+                    "year": 2011,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2012
+                    "year": 2012,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2013
+                    "year": 2013,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2014
+                    "year": 2014,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2015
+                    "year": 2015,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2016
+                    "year": 2016,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2017
+                    "year": 2017,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2018
+                    "year": 2018,
+                    "units": "USD"
                 },
                 {
                     "name": "LongTermDebt",
-                    "year": 2019
+                    "year": 2019,
+                    "units": "USD"
                 }
             ]
         }

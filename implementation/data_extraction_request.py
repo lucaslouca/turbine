@@ -2,10 +2,11 @@ import os
 
 
 class DataExtractionRequest:
-    def __init__(self, poll_reference, ticker: str, data: dict):
+    def __init__(self, poll_reference, ticker: str, data: dict, units: str = None):
         self.poll_reference = poll_reference
         self.ticker = ticker
         self.data = data
+        self.units = units
 
     @property
     def file(self):
@@ -22,4 +23,4 @@ class DataExtractionRequest:
         return filename
 
     def __repr__(self):
-        return f'<DataExtractionRequest(poll_reference={self.poll_reference}, ticker={self.ticker}, data={self.data})>'
+        return f'<DataExtractionRequest(poll_reference={self.poll_reference}, ticker={self.ticker}, units={self.units}, data={self.data})>'

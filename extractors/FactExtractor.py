@@ -12,11 +12,11 @@ class FactExtractor(AbstractExtractor):
     def supports_input(self, request: DataExtractionRequest):
         return request.file_extension and request.file_extension.upper() == ".JSON"
 
-    def _find_value_for_concept(self, file: str, fy: int) -> str:
+    def _find_value_for_concept(self, file: str, fy: int, units: str = "USD") -> str:
         result = None
         with open(file, 'r') as json_file:
             json_data = json.load(json_file)
-            jsonpath_expression = jsonpath_rw_ext.parse(f'units.USD[?(fy=={fy} & form="10-K")]')
+            jsonpath_expression = jsonpath_rw_ext.parse(f'units.{units}[?(fy=={fy} & form="10-K")]')
             matches = jsonpath_expression.find(json_data)
             if matches:
                 result = max(matches, key=lambda m: m.value['end']).value['val']
@@ -25,7 +25,7 @@ class FactExtractor(AbstractExtractor):
     @overrides(AbstractExtractor)
     def extract(self, request: DataExtractionRequest):
         result = []
-        value = self._find_value_for_concept(file=request.file, fy=request.data['year'])
+        value = self._find_value_for_concept(file=request.file, fy=request.data['year'], units=request.units)
         if value:
             result.append(
                 Concept(

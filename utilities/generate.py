@@ -24,13 +24,14 @@ def read_csv(file: str) -> list[dict]:
 def main():
     years = [y for y in range(2009, 2020)]
     concepts = ['CommonStockSharesOutstanding', 'EarningsPerShareDiluted', 'LongTermDebt']
+    concept_to_units = {'CommonStockSharesOutstanding': 'shares', 'EarningsPerShareDiluted': 'USD', 'LongTermDebt': 'USD'}
     rows = read_csv(file='SP500.csv')
     tickers = sorted([d['Symbol'] for d in rows])
 
     # Concept Requests
     cd = {}
     cd['topic'] = 'concept'
-    cd['resources'] = [{'tickers': tickers, 'concepts': [{'name': c, 'year': y} for c in concepts for y in years]}]
+    cd['resources'] = [{'tickers': tickers, 'concepts': [{'name': c, 'year': y, 'units': concept_to_units[c]} for c in concepts for y in years]}]
     concept_request = json.dumps(cd, indent=4)
 
     with open('in/sp500_concept_request.json', 'w') as file:

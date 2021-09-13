@@ -92,7 +92,7 @@ class PollerConcept(AbstractPoller):
         poll_reference = PollReference()
         success = False
         try:
-            ticker, concept, year = items
+            ticker, concept, year, units = items
             poll_reference.ticker = ticker
             poll_reference.year = year
             poll_reference.concept = concept
@@ -104,7 +104,7 @@ class PollerConcept(AbstractPoller):
                 file = self._download_concept(url=url, ticker=ticker, concept=concept, destination_root_dir=self._cache_dir)
                 if file:
                     poll_reference.file = file
-                    extraction_request = DataExtractionRequest(poll_reference=poll_reference, ticker=ticker, data={'url': url, 'concept': concept, 'year': year})
+                    extraction_request = DataExtractionRequest(poll_reference=poll_reference, ticker=ticker, units=units, data={'url': url, 'concept': concept, 'year': year})
                     success = True
                 else:
                     self.log_error(message=f"Could not download {url}")

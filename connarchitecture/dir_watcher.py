@@ -77,7 +77,8 @@ class Handler(FileSystemEventHandler, LoggingComponent):
                         for concept in concepts:
                             concept_name = concept['name']
                             year = concept['year']
-                            result.append((topic, ticker, concept_name, int(year)))
+                            units = concept['units']
+                            result.append((topic, ticker, concept_name, int(year), units))
 
             except Exception as e:
                 self.log_exception(message=f'Unable to load json {file}', exception=e)
