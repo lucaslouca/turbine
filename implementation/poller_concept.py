@@ -60,7 +60,7 @@ class PollerConcept(AbstractPoller):
         else:
             os.makedirs(folder, exist_ok=True)
 
-            time.sleep(0.500)
+            time.sleep(2.500)
 
             self.log(f'Downloading {concept} for {ticker}')
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}

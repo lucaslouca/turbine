@@ -511,6 +511,226 @@
             ],
             "concepts": [
                 {
+                    "name": "NetIncomeLoss",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "NetIncomeLoss",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "StockholdersEquity",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesAndStockholdersEquity",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "Liabilities",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
                     "name": "CommonStockSharesOutstanding",
                     "year": 2009,
                     "units": "shares"
@@ -672,6 +892,226 @@
                 },
                 {
                     "name": "LongTermDebt",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesCurrent",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "LiabilitiesNoncurrent",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "Cash",
+                    "year": 2019,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2009,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2010,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2011,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2012,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2013,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2014,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2015,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2016,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2017,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
+                    "year": 2018,
+                    "units": "USD"
+                },
+                {
+                    "name": "CashAndCashEquivalentsAtCarryingValue",
                     "year": 2019,
                     "units": "USD"
                 }

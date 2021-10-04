@@ -23,8 +23,21 @@ def read_csv(file: str) -> list[dict]:
 
 def main():
     years = [y for y in range(2009, 2020)]
-    concepts = ['CommonStockSharesOutstanding', 'EarningsPerShareDiluted', 'LongTermDebt']
-    concept_to_units = {'CommonStockSharesOutstanding': 'shares', 'EarningsPerShareDiluted': 'USD', 'LongTermDebt': 'USD'}
+    concepts = [
+        'NetIncomeLoss',
+        'StockholdersEquity',
+        'LiabilitiesAndStockholdersEquity',
+        'Liabilities',
+        'CommonStockSharesOutstanding',
+        'EarningsPerShareDiluted',
+        'LongTermDebt',
+        'LiabilitiesCurrent',
+        'LiabilitiesNoncurrent',
+        'Cash',
+        'CashAndCashEquivalentsAtCarryingValue'
+    ]
+    concept_to_units = {k: 'USD' for k in concepts}
+    concept_to_units['CommonStockSharesOutstanding'] = 'shares'
     rows = read_csv(file='SP500.csv')
     tickers = sorted([d['Symbol'] for d in rows])
 
